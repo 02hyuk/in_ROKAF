@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.FileReader;
 
-import assembler.Assembler;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import config.AppCtx;
 import spring.ChangePasswordService;
 import spring.DuplicateMemberException;
 import spring.MemberNotFoundException;
@@ -12,10 +15,18 @@ import spring.MemberRegisterService;
 import spring.RegisterRequest;
 import spring.WrongIdPasswordException;
 
-public class MainForAssembler {
+public class MainForSpring {
+    private static ApplicationContext ctx = null;
+    
     public static void main(String[] args) throws IOException {
+        
+        // AppCtx(설정 클래스)의 정보를 기반으로 스프링 컨테이너 생성하여 AppCtx에 정의된 빈 초기화 및 관리
+        ctx = new AnnotationConfigApplicationContext(AppCtx.class);
         BufferedReader reader = 
-            new BufferedReader(new FileReader("/workspace/myContainer/project_ch03/src/main/resources/commandList.txt"));
+            new BufferedReader(
+                new FileReader("/workspace/myContainer/project_ch03/src/main/resources/commandList.txt")
+            );
+        
         while(true) {
             String command = reader.readLine();
             if(command == null) break;
@@ -41,15 +52,14 @@ public class MainForAssembler {
         reader.close();
     }
     
-    private static Assembler assembler = new Assembler();
-    
     private static void processNewCommand(String[] arg) {
         // new 명령이 유효하게 적혔는지(5개 단어인지) 확인
         if(arg.length != 5) {
             printHelp();
             return;
         }
-        MemberRegisterService regSvc = assembler.getMemberRegisterService();
+        MemberRegisterService regSvc = 
+            ctx.getBean("memberRegSvc", MemberRegisterService.class);
         // 회원가입 요청 정보를 저장할 객체 req 생성
         RegisterRequest req = new RegisterRequest();
         req.setEmail(arg[1]);
@@ -75,7 +85,8 @@ public class MainForAssembler {
             printHelp();
             return;
         }
-        ChangePasswordService changePwdSvc = assembler.getChangePasswordService();
+        ChangePasswordService changePwdSvc = 
+            ctx.getBean("changePwdSvc", ChangePasswordService.class);
         try {
             changePwdSvc.changePassword(arg[1], arg[2], arg[3]);
             System.out.println("암호를 변경했습니다.\n");

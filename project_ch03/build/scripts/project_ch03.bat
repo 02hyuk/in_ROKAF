@@ -66,7 +66,7 @@ set CMD_LINE_ARGS=%*
 set CLASSPATH=%APP_HOME%\lib\project_ch03.jar;%APP_HOME%\lib\spring-context-5.0.2.RELEASE.jar;%APP_HOME%\lib\spring-aop-5.0.2.RELEASE.jar;%APP_HOME%\lib\spring-beans-5.0.2.RELEASE.jar;%APP_HOME%\lib\spring-expression-5.0.2.RELEASE.jar;%APP_HOME%\lib\spring-core-5.0.2.RELEASE.jar;%APP_HOME%\lib\spring-jcl-5.0.2.RELEASE.jar
 
 @rem Execute project_ch03
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %PROJECT_CH03_OPTS%  -classpath "%CLASSPATH%" mainPackage.MainForAssembler %CMD_LINE_ARGS%
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %PROJECT_CH03_OPTS%  -classpath "%CLASSPATH%" mainPackage.MainForSpring %CMD_LINE_ARGS%
 
 :end
 @rem End local scope for the variables with windows NT shell
