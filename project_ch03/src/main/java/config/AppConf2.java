@@ -14,12 +14,12 @@ import spring.VersionPrinter;
 
 // main 메소드에서 쓸 스프링 컨테이너의 설정 클래스 2
 @Configuration
-public class AppConf2 {
+public class AppConf2 {    
+    // @Import가 있어도 의존 자동 주입 필요
     @Autowired
     MemberDao memberDao;
     @Autowired
     MemberPrinter memberPrinter;
-    
     // 의존 주입 방식
     // 1. 생성자 방식
     @Bean

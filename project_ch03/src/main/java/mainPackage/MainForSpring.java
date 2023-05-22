@@ -24,7 +24,7 @@ public class MainForSpring {
     public static void main(String[] args) throws IOException {
         
         // 각 설정 클래스 AppCtx1, AppCtx2의 정보를 기반으로 스프링 컨테이너 생성하여 각각에 정의된 빈 초기화 및 관리
-        ctx = new AnnotationConfigApplicationContext(AppConf1.class, AppConf2.class);
+        ctx = new AnnotationConfigApplicationContext(AppConfImport.class);
         BufferedReader reader = 
             new BufferedReader(
                 new FileReader("/workspace/myContainer/git_repo/in_ROKAF/project_ch03/src/main/resources/commandList.txt")
