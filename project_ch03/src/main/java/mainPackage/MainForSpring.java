@@ -10,9 +10,12 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import config.AppCtx;
 import spring.ChangePasswordService;
 import spring.DuplicateMemberException;
+import spring.MemberInfoPrinter;
+import spring.MemberListPrinter;
 import spring.MemberNotFoundException;
 import spring.MemberRegisterService;
 import spring.RegisterRequest;
+import spring.VersionPrinter;
 import spring.WrongIdPasswordException;
 
 public class MainForSpring {
@@ -41,9 +44,17 @@ public class MainForSpring {
             if(command.startsWith("new ")) {
                 processNewCommand(command.split(" "));
                 continue;
-            }
-            if(command.startsWith("change ")) {
+            } else if(command.startsWith("change ")) {
                 processChangeCommand(command.split(" "));
+                continue;
+            } else if(command.equals("list")) {
+                processListCommand();
+                continue;
+            } else if(command.startsWith("info ")) {
+                processInfoCommand(command.split(" "));
+                continue;
+            } else if(command.equals("version")) {
+                processVersionCommand();
                 continue;
             }
             // if문에 모두 해당하지 않는 경우 - 명령을 잘못 입력한 것이므로 도움말 출력
@@ -95,6 +106,26 @@ public class MainForSpring {
         } catch(WrongIdPasswordException e) {
             System.out.println("이메일과 암호가 일치하지 않습니다.\n");
         }
+    }
+    private static void processListCommand() {
+        MemberListPrinter listPrinter = 
+            ctx.getBean("listPrinter", MemberListPrinter.class);
+        listPrinter.printAll();
+    }
+    private static void processInfoCommand(String[] arg) {
+        // info 명령이 유효하게 적혔는지(2개 단어인지) 확인
+        if(arg.length != 2) {
+            printHelp();
+            return;
+        }
+        MemberInfoPrinter infoPrinter = 
+            ctx.getBean("infoPrinter", MemberInfoPrinter.class);
+        infoPrinter.printMemberInfo(arg[1]);
+    }
+    private static void processVersionCommand() {
+        VersionPrinter versionPrinter = 
+            ctx.getBean("versionPrinter", VersionPrinter.class);
+        versionPrinter.print();
     }
     private static void printHelp() {
         System.out.println("잘못된 명령입니다. 아래 명령어 사용법을 확인하세요.");

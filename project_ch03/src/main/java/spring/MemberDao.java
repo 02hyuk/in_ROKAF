@@ -1,5 +1,6 @@
 package spring;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +11,10 @@ public class MemberDao {
     // 이메일로 Member 객체 선택
     public Member selectByEmail(String email) {
         return map.get(email);
+    }
+    // 모든 가입자의 정보 리턴
+    public Collection<Member> selectAll() {
+        return map.values();
     }
     // 최초 삽입시 id값 세팅하고 삽입
     public void insert(Member member) {
