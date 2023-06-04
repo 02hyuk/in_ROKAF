@@ -7,7 +7,7 @@ import java.io.FileReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import config.*;
+import config.AppConfImport;
 import spring.ChangePasswordService;
 import spring.DuplicateMemberException;
 import spring.MemberInfoPrinter;
