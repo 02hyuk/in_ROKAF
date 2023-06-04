@@ -1,6 +1,7 @@
 package spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class MemberInfoPrinter {
     private MemberDao memberDao;
@@ -24,6 +25,7 @@ public class MemberInfoPrinter {
         this.memberDao = memberDao;
     }
     @Autowired
+    @Qualifier("printer") // MemberPrinter 타입 빈이 여러 개이므로 한정자가 printer인 빈을 선택해 의존 주입
     public void setPrinter(MemberPrinter printer) {
         this.printer = printer;
     }

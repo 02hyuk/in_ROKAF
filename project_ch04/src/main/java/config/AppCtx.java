@@ -1,6 +1,7 @@
 package config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,6 +10,7 @@ import spring.MemberDao;
 import spring.MemberInfoPrinter;
 import spring.MemberListPrinter;
 import spring.MemberPrinter;
+import spring.MemberSummaryPrinter;
 import spring.MemberRegisterService;
 import spring.VersionPrinter;
 
@@ -19,9 +21,30 @@ public class AppCtx {
     public MemberDao memberDao() {
         return new MemberDao();
     }
+    /*
+    빈 중복 문제를 발생시키기 위해 수정 조금 함
     @Bean
     public MemberPrinter memberPrinter() {
         return new MemberPrinter();
+    }
+    */
+    // MemberPrinter 타입 빈이 여러 개 존재
+    // -> 자동 주입할 때 충돌하므로 @Qualifier 어노테이션 필요
+    @Bean
+    @Qualifier("printer")
+    public MemberPrinter memberPrinter1() {
+        return new MemberPrinter();
+    }
+    @Bean
+    public MemberPrinter memberPrinter2() {
+        return new MemberPrinter();
+    }
+    // MemberSummaryPrinter는 MemberPrinter 타입의 하위 타입이므로
+    // MemberPrinter 타입이기도 함
+    // 그래서 빈 중복 문제 발생
+    @Bean
+    public MemberSummaryPrinter summaryPrinter() {
+        return new MemberSummaryPrinter();
     }
     
     // 아래 빈들은 위의 두 빈에 의존
@@ -59,6 +82,8 @@ public class AppCtx {
             infoPrinter.setPrinter(memberPrinter()); 
         */
         
+        // 아래 코드는 의존 자동 주입 때문에 묻힘(우선순위: 의존 자동 주입 > 명시적 의존 주입)
+        infoPrinter.setPrinter(summaryPrinter());
         return infoPrinter;
     }
     @Bean
