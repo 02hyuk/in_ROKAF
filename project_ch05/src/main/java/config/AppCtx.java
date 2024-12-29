@@ -1,8 +1,12 @@
 package config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import annotation.ManualBean;
+import annotation.NoProduct;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 
 import spring.ChangePasswordService;
 import spring.MemberDao;
@@ -14,11 +18,16 @@ import spring.VersionPrinter;
 
 // main 메소드에서 쓸 스프링 컨테이너의 설정 클래스
 @Configuration
+@ComponentScan(basePackages = {"spring"}, excludeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = MemberDao.class))
 public class AppCtx {
+    // 제외 필터 조건에 MemberDao가 해당되므로 컴포넌트 스캔이 안됨
+    // 빈 수동 등록해야 함
+
     @Bean
     public MemberDao memberDao() {
         return new MemberDao();
     }
+
     @Bean
     public MemberPrinter memberPrinter() {
         return new MemberPrinter();
@@ -40,27 +49,7 @@ public class AppCtx {
         //pwdSvc.setMemberDao(memberDao);
         return pwdSvc;
     }
-    @Bean
-    public MemberListPrinter listPrinter() {
-        // 매개변수 생성자를 삭제하고 @Autowired가 적용된 세터 메소드를 추가했음
-        // 스프링 컨테이너가 의존 자동 주입을 위해 세터 메소드 자동 호출
-        
-        // return new MemberListPrinter(memberDao(), memberPrinter());
-        
-        return new MemberListPrinter();
-    }
-    @Bean
-    public MemberInfoPrinter infoPrinter() {
-        MemberInfoPrinter infoPrinter = new MemberInfoPrinter();
-        //  listPrinter 빈과 동일한 이유로 매개변수 생성자 필요 없음
-        
-        /* 
-            infoPrinter.setMemberDao(memberDao());
-            infoPrinter.setPrinter(memberPrinter()); 
-        */
-        
-        return infoPrinter;
-    }
+
     @Bean
     public VersionPrinter versionPrinter() {
         VersionPrinter versionPrinter = new VersionPrinter();

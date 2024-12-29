@@ -1,9 +1,15 @@
 package spring;
 
+import annotation.ManualBean;
+
+import org.springframework.stereotype.Component;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
+@ManualBean
 public class MemberDao {
     private static long nextId = 0;
     private Map<String, Member> map = new HashMap<>(); // 키: 이메일, 값: Member 객체

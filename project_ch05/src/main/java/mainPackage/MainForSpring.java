@@ -2,7 +2,7 @@ package mainPackage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -25,17 +25,13 @@ public class MainForSpring {
         
         // 각 설정 클래스 AppCtx1, AppCtx2의 정보를 기반으로 스프링 컨테이너 생성하여 각각에 정의된 빈 초기화 및 관리
         ctx = new AnnotationConfigApplicationContext(AppCtx.class);
-        BufferedReader reader = 
-            new BufferedReader(
-                new FileReader("/workspace/myContainer/git_repo/in_ROKAF/project_ch04/src/main/resources/commandList.txt")
-            );
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         
         while(true) {
             String command = reader.readLine();
             if(command == null) break;
+
             System.out.println("------------------------------------------------");
-            System.out.println("명령어를 commandList.txt 파일로부터 입력받는 중입니다.\n");
-            System.out.println("입력받은 명령어: " + command);
             // 명령어: exit, new, change 3개
             if(command.equalsIgnoreCase("exit")) {
                 System.out.println("종료합니다.");
