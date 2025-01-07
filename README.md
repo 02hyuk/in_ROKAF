@@ -21,3 +21,4 @@ IDE: 구름IDE(빈 프로젝트에 직접 실행환경 구성) -> IntelliJ<br>
 [#4 의존 자동 주입](./project_ch04/ch04.md)<br>
 [#5 컴포넌트 스캔](./project_ch05/ch05.md)<br>
 [#6 빈 라이프사이클과 범위](./project_ch06/ch06.md)<br>
+[#7 AOP 프로그래밍](./project_ch07/ch07.md)<br>
